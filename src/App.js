@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-
-// import "bootstrap/dist/css/bootstrap.min.css";
-
 import SiteNavbar from "./components/Navbar";
 import { Route } from "react-router-dom";
 import RegisterForm from "./components/Register";
