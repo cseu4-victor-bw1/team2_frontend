@@ -24,7 +24,6 @@ export default function MainPage(props) {
 			{/* <Row>
 				<JokesList {...props} api="public/jokes/popular" />
 			</Row> */}
-			<canvas></canvas>
 		</div>
 	);
 }
