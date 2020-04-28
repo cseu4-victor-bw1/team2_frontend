@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { withFormik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import axios from "axios";
+import withAuth from "../helpers/axios";
 import Alert from "@material-ui/lab/Alert";
 import { TextField } from "formik-material-ui";
 import { Button, Container } from "@material-ui/core";
@@ -73,10 +74,18 @@ const LoginForm = withFormik({
 
   handleSubmit(values, { props, setStatus }) {
     axios
-      .post(`${baseUrl}/api/login`, {
-        username: values.username,
-        password: values.password,
-      })
+      .post(
+        `${baseUrl}/api/login/`,
+        {
+          username: values.username,
+          password: values.password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
       .then((response) => {
         localStorage.setItem("token", response.data.token);
 

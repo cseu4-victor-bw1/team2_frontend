@@ -92,10 +92,10 @@ const RegisterForm = withFormik({
 
   handleSubmit(values, { props, setStatus }) {
     axios
-      .post(`${baseUrl}/api/registration`, {
+      .post(`${baseUrl}/api/registration/`, {
         username: values.username,
         email: values.email,
-        password: values.password,
+        password1: values.password,
         password2: values.password2,
       })
       .then((response) => {
