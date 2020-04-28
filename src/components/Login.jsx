@@ -5,51 +5,50 @@ import * as yup from "yup";
 import axios from "axios";
 import Alert from "@material-ui/lab/Alert";
 import { TextField } from "formik-material-ui";
-import { Button } from "@material-ui/core";
+import { Button, Container } from "@material-ui/core";
 
 const baseUrl = process.env.API_URL || "http://127.0.0.1:8000";
 
 function UserForm(props) {
   // const [token, setToken] = useStateWithLocalStorage("token", null);
   return (
-    <Form>
-      <h1>Login</h1>
-      <br />
-
-      {/* <Label>
+    <Container maxWidth="sm" className="container">
+      <Form>
+        <h1>Login</h1>
+        <br />
+        {/* <Label>
 				<b>Email:</b>
 			</Label> */}
-      <Field
-        component={TextField}
-        name="username"
-        type="text"
-        label="username"
-        placeholder="Username please?"
-        fullWidth
-      />
-      {/* <Label>
+        <Field
+          component={TextField}
+          name="username"
+          type="text"
+          label="username"
+          placeholder="Username please?"
+          fullWidth
+        />
+        {/* <Label>
 				<b>Password:</b>
 			</Label> */}
-      <Field
-        component={TextField}
-        name="password"
-        type="password"
-        label="password"
-        placeholder="Password please?"
-        fullWidth
-      />
-
-      <br />
-      <br />
-
-      <Button variant="contained" color="primary" type="submit">
-        Submit
-      </Button>
-      <br />
-      {props.status && props.status.error && (
-        <Alert color="danger">There was an error, please try again</Alert>
-      )}
-    </Form>
+        <Field
+          component={TextField}
+          name="password"
+          type="password"
+          label="password"
+          placeholder="Password please?"
+          fullWidth
+        />
+        <br />
+        <br />
+        <Button variant="contained" color="primary" type="submit">
+          Submit
+        </Button>
+        <br />
+        {props.status && props.status.error && (
+          <Alert color="danger">There was an error, please try again</Alert>
+        )}
+      </Form>
+    </Container>
   );
 }
 

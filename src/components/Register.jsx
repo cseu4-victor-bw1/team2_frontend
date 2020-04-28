@@ -6,59 +6,58 @@ import axios from "axios";
 import Alert from "@material-ui/lab/Alert";
 
 import { TextField } from "formik-material-ui";
-import { Button } from "@material-ui/core";
+import { Button, Container } from "@material-ui/core";
 
 const baseUrl = process.env.API_URL || "http://127.0.0.1:8000";
 
 function UserForm(props) {
   return (
-    <Form>
-      <h1>Register</h1>
-      <br />
-
-      <Field
-        component={TextField}
-        name="username"
-        type="text"
-        label="Username"
-        placeholder="Username please?"
-        fullWidth
-      />
-
-      <Field
-        component={TextField}
-        name="email"
-        type="email"
-        label="Email"
-        placeholder="Email please?"
-        fullWidth
-      />
-      <Field
-        component={TextField}
-        name="password"
-        type="password"
-        label="Password"
-        placeholder="Password please?"
-        fullWidth
-      />
-
-      <Field
-        component={TextField}
-        name="password2"
-        type="password"
-        label="Password Confirm"
-        placeholder="Password please?"
-        fullWidth
-      />
-
-      <Button variant="contained" color="primary" type="submit">
-        Submit
-      </Button>
-      <br />
-      {props.status && props.status.error && (
-        <Alert color="danger">There was an error, please try again</Alert>
-      )}
-    </Form>
+    <Container maxWidth="sm" className="container">
+      <Form>
+        <h1>Register</h1>
+        <br />
+        <Field
+          component={TextField}
+          name="username"
+          type="text"
+          label="Username"
+          placeholder="Username please?"
+          fullWidth
+        />
+        <Field
+          component={TextField}
+          name="email"
+          type="email"
+          label="Email"
+          placeholder="Email please?"
+          fullWidth
+        />
+        <Field
+          component={TextField}
+          name="password"
+          type="password"
+          label="Password"
+          placeholder="Password please?"
+          fullWidth
+        />
+        <Field
+          component={TextField}
+          name="password2"
+          type="password"
+          label="Password Confirm"
+          placeholder="Password please?"
+          fullWidth
+        />
+        <br /> <br />
+        <Button variant="contained" color="primary" type="submit">
+          Submit
+        </Button>
+        <br />
+        {props.status && props.status.error && (
+          <Alert color="danger">There was an error, please try again</Alert>
+        )}
+      </Form>
+    </Container>
   );
 }
 
