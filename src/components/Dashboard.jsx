@@ -73,6 +73,11 @@ export default function Dashboard(props) {
 		"peaks/peaks_2.png",
 		"peaks/peaks_3.png",
 		"peaks/peaks_4.png",
+
+		"flasks/flasks_4_1.png",
+		"flasks/flasks_4_2.png",
+		"flasks/flasks_4_3.png",
+		"flasks/flasks_4_4.png",
 	]; // list of image URLs
 
 	const images = []; /// array to hold images.
@@ -141,6 +146,9 @@ export default function Dashboard(props) {
 					}
 					if (Math.floor(Math.random() * 50) + 1 === 1) {
 						room.items.push("chest");
+					}
+					if (Math.floor(Math.random() * 90) + 1 === 1) {
+						room.items.push("flasks");
 					}
 
 					if (room.e_to) {
@@ -331,7 +339,16 @@ export default function Dashboard(props) {
 						ctx.drawImage(
 							images[frame + 37],
 							j * 80 + 16 * 4,
-							i * 80 + 15 * 2,
+							i * 80 + 16 * 2,
+							16,
+							16
+						);
+					}
+					if (rooms[i][j].items.includes("flasks")) {
+						ctx.drawImage(
+							images[frame + 41],
+							j * 80 + 16 * 1,
+							i * 80 + 16 * 3,
 							16,
 							16
 						);
