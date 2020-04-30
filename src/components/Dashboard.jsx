@@ -74,10 +74,20 @@ export default function Dashboard(props) {
 	React.useEffect(() => {
 		axiosWithAuth()
 			.get("adv/rooms")
-			.then((response) => {
+			.then(async (response) => {
 				// setjokeofDay(response.data);
 				// props.values = response.data;
 				// setRooms(response.data);
+
+				await axiosWithAuth()
+					.get("adv/init")
+					.then((response) => {
+						console.log(response.data);
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+
 				let pr = response.data;
 				console.dir(pr);
 
@@ -293,55 +303,86 @@ export default function Dashboard(props) {
 	const onkeydown = async (e) => {
 		e = e || window.event;
 
-		await axiosWithAuth()
-			.post("adv/move", {
-				direction: "e",
-			})
-			.then((response) => {
-				let pr = response.data;
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-
+		let direction = "";
 		switch (e.keyCode) {
-			case 65:
-			case 37:
+			case 65: //A
+			case 37: // <--
 				// left
-				if (player.x - 1 < 0) {
-					return;
-				}
-				setPlayer({ ...player, x: player.x - 1 });
+				direction = "w";
 				break;
 			case 87:
 			case 38:
 				// up
-				if (player.y - 1 < 0) {
-					return;
-				}
-				setPlayer({ ...player, y: player.y - 1 });
+				direction = "n";
 				break;
 			case 83:
 			case 40:
 				// down
-				if (player.y + 1 >= amountOfRooms) {
-					return;
-				}
-				setPlayer({ ...player, y: player.y + 1 });
+				direction = "s";
 				break;
 			case 68:
 			case 39:
 				// right
-				if (player.x + 1 >= amountOfRooms) {
-					return;
-				}
-				setPlayer({ ...player, x: player.x + 1 });
+				direction = "e";
 				break;
 			default:
 				console.log("invalid input");
-
 				break;
 		}
+
+		await axiosWithAuth()
+			.post("adv/move", {
+				direction: direction,
+			})
+			.then((response) => {
+				console.log(response.data);
+				if (response.data.error_msg) {
+					console.log("dont move");
+					return;
+				}
+
+				switch (e.keyCode) {
+					case 65: //A
+					case 37: // <--
+						// left
+						if (player.x - 1 < 0) {
+							return;
+						}
+						setPlayer({ ...player, x: player.x - 1 });
+						break;
+					case 87:
+					case 38:
+						// up
+						if (player.y - 1 < 0) {
+							return;
+						}
+						setPlayer({ ...player, y: player.y - 1 });
+						break;
+					case 83:
+					case 40:
+						// down
+						if (player.y + 1 >= amountOfRooms) {
+							return;
+						}
+						setPlayer({ ...player, y: player.y + 1 });
+						break;
+					case 68:
+					case 39:
+						// right
+						if (player.x + 1 >= amountOfRooms) {
+							return;
+						}
+						setPlayer({ ...player, x: player.x + 1 });
+						break;
+					default:
+						console.log("invalid input");
+
+						break;
+				}
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	};
 
 	document.onkeydown = onkeydown;

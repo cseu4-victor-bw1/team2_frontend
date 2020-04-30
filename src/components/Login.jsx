@@ -72,22 +72,14 @@ const LoginForm = withFormik({
       .required("Password is required"),
   }),
 
-  handleSubmit(values, { props, setStatus }) {
-    axios
-      .post(
-        `${baseUrl}/api/login/`,
-        {
-          username: values.username,
-          password: values.password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((response) => {
-        localStorage.setItem("token", response.data.token);
+	handleSubmit(values, { props, setStatus }) {
+		axiosWithAuth()
+			.post("auth/login", {
+				email: values.email,
+				password: values.password,
+			})
+			.then((response) => {
+				localStorage.setItem("token", response.data.key);
 
         // setToken("response.data.token");
 
