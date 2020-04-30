@@ -10,31 +10,36 @@ export default function Dashboard(props) {
 
 	const [rooms, setRooms] = useState([[]]);
 	const [player, setPlayer] = useState({
-		x: 80 * 4,
+		x: 80 * 5,
 		y: 80 * 5,
 	});
 
-	const amountOfRooms = 50;
+	const amountOfRooms = 100;
 
 	// const loadImages = () => {
 	const imageURL = [
 		"player.png",
-		"all2.png",
-		"all.png",
-		"e.png",
-		"es.png",
-		"ne.png",
-		"nes.png",
-		"n.png",
 		"ns.png",
-		"nws.png",
-		"s.png",
-		"wen.png",
 		"we.png",
-		"wes.png",
-		"wn.png",
+		"s.png",
 		"w.png",
+		"n.png",
+		"all2.png",
+		"wes.png",
+		"nws.png",
+		"wen.png",
+		"nes.png",
 		"ws.png",
+		"wn.png",
+		"ne.png",
+		"es.png",
+		"e.png",
+		"all.png",
+		// items, 17, 18, etc
+		"coin/coin_1.png",
+		"coin/coin_2.png",
+		"coin/coin_3.png",
+		"coin/coin_4.png",
 	]; // list of image URLs
 	const images = []; /// array to hold images.
 	var imageCount = 0; // number of loaded images;
@@ -46,6 +51,7 @@ export default function Dashboard(props) {
 		// ctx.drawImage(images[0], 0, 0); // draw foreground
 		drawRooms();
 		drawPlayer();
+		drawItems();
 	}
 
 	// iterate each image URL, create, load, and add it to the images array
@@ -71,36 +77,68 @@ export default function Dashboard(props) {
 				// setjokeofDay(response.data);
 				// props.values = response.data;
 				// setRooms(response.data);
-				let pr = JSON.parse(response.data.rooms);
-				console.log(pr);
+				let pr = response.data;
+				console.dir(pr);
 
 				const cords = {
-					x: 5,
-					y: 5,
+					x: 0,
+					y: 0,
 				};
 
-				pr.sort((a, b) => {
-					return a.pk - b.pk;
-				});
-				console.log(pr);
-
-				// pr.forEach((room) => {
-				// 	console.log(room);
-				// 	if (room.fields.n_to) {
-				// 		cords.y += 1;
-				// 	}
-				// 	if (room.fields.s_to) {
-				// 		cords.y -= 1;
-				// 	}
-				// 	if (room.fields.w_to) {
-				// 		// left
-				// 		cords.x -= 1;
-				// 	}
-				// 	if (room.fields.e_to) {
-				// 		cords.x += 1;
-				// 	}
-				// 	allRooms[cords.x][cords.y] = 1;
+				// pr.sort((a, b) => {
+				// 	return a.pk - b.pk;
 				// });
+
+				let allRooms = new Array(amountOfRooms);
+				for (let i = 0; i < amountOfRooms; i++) {
+					allRooms[i] = new Array(amountOfRooms);
+				}
+
+				const setUpRooms = (room, dir) => {
+					// "dir" avoids going back the direction it came from so that it doesnt do an endless loop
+
+					// room.items = [];
+
+					allRooms[cords.y][cords.x] = room;
+
+					if (room.n_to && dir !== "s") {
+						cords.y -= 1;
+						setUpRooms(
+							pr.find((curr) => curr.id === room.n_to),
+							"n"
+						);
+						cords.y += 1;
+					}
+					if (room.e_to && dir !== "w") {
+						cords.x += 1;
+						setUpRooms(
+							pr.find((curr) => curr.id === room.e_to),
+							"e"
+						);
+						cords.x -= 1;
+					}
+					if (room.s_to && dir !== "n") {
+						cords.y += 1;
+						setUpRooms(
+							pr.find((curr) => curr.id === room.s_to),
+							"s"
+						);
+						cords.y -= 1;
+					}
+					if (room.w_to && dir !== "e") {
+						cords.x -= 1;
+						setUpRooms(
+							pr.find((curr) => curr.id === room.w_to),
+							"w"
+						);
+						cords.x += 1;
+					}
+				};
+
+				console.log(pr[0]);
+
+				setUpRooms(pr[0], "n");
+				setRooms(allRooms);
 
 				// draw();
 				// drawPlayer();
@@ -108,55 +146,144 @@ export default function Dashboard(props) {
 			.catch((error) => {
 				console.log(error);
 			});
-
-		let allRooms = [];
-		for (let i = 0; i < amountOfRooms; i++) {
-			allRooms[i] = [];
-			for (let j = 0; j < amountOfRooms; j++) {
-				if (!!Math.floor(Math.random() * 2)) {
-					allRooms[i][j] = 1;
-				} else {
-					allRooms[i][j] = null;
-				}
-			}
-		}
-
-		setRooms(allRooms);
 	}, []);
 
 	// React.useEffect(() => {
 	// 	ctx = canvas.current.getContext("2d");
 	// }, []);
 
-	React.useEffect(() => {
+	// React.useEffect(() => {
+	// 	ctx = canvas.current.getContext("2d");
+
+	// 	ctx.fillStyle = "#25131a";
+	// 	ctx.fillRect(0, 0, canvas.current.width, canvas.current.height);
+
+	// 	drawRooms();
+	// 	drawPlayer();
+	// }, [player, rooms]);
+
+	const drawRooms = () => {
 		ctx = canvas.current.getContext("2d");
+		console.log("rooms");
 
 		ctx.fillStyle = "#25131a";
 		ctx.fillRect(0, 0, canvas.current.width, canvas.current.height);
 
-		drawRooms();
-		drawPlayer();
-	}, [player, rooms]);
-
-	const drawRooms = () => {
-		ctx = canvas.current.getContext("2d");
-
 		for (let i = 0; i < rooms.length; i++) {
 			for (let j = 0; j < rooms[i].length; j++) {
 				if (rooms[i][j]) {
-					// ctx.fillRect(j * 10, i * 10, 10, 10);
-					ctx.drawImage(images[1], j * 80, i * 80, 80, 80);
+					let drawThisImage = images[1];
+
+					// directions image of reference:
+					// https://img.itch.zone/aW1hZ2UvNTcyMzk4LzMwMDk4OTUucG5n/347x500/P6B0xn.png
+
+					// one direction
+					if (rooms[i][j].n_to) {
+						drawThisImage = images[5];
+					}
+					if (rooms[i][j].s_to) {
+						drawThisImage = images[3];
+					}
+					if (rooms[i][j].w_to) {
+						drawThisImage = images[4];
+					}
+					if (rooms[i][j].e_to) {
+						drawThisImage = images[15];
+					}
+
+					// two directions: | -
+					if (rooms[i][j].n_to && rooms[i][j].s_to) {
+						drawThisImage = images[1];
+					}
+					if (rooms[i][j].e_to && rooms[i][j].w_to) {
+						drawThisImage = images[2];
+					}
+
+					// tree directions: corners
+					if (rooms[i][j].w_to && rooms[i][j].s_to) {
+						drawThisImage = images[11];
+					}
+					if (rooms[i][j].w_to && rooms[i][j].n_to) {
+						drawThisImage = images[12];
+					}
+					if (rooms[i][j].n_to && rooms[i][j].e_to) {
+						drawThisImage = images[13];
+					}
+					if (rooms[i][j].s_to && rooms[i][j].e_to) {
+						drawThisImage = images[14];
+					}
+
+					// 3 directions: t's
+					if (
+						rooms[i][j].w_to &&
+						rooms[i][j].e_to &&
+						rooms[i][j].s_to
+					) {
+						drawThisImage = images[7];
+					}
+					if (
+						rooms[i][j].w_to &&
+						rooms[i][j].s_to &&
+						rooms[i][j].n_to
+					) {
+						drawThisImage = images[8];
+					}
+					if (
+						rooms[i][j].w_to &&
+						rooms[i][j].e_to &&
+						rooms[i][j].n_to
+					) {
+						drawThisImage = images[9];
+					}
+					if (
+						rooms[i][j].e_to &&
+						rooms[i][j].s_to &&
+						rooms[i][j].n_to
+					) {
+						drawThisImage = images[10];
+					}
+
+					// all directions
+					if (
+						rooms[i][j].n_to &&
+						rooms[i][j].e_to &&
+						rooms[i][j].s_to &&
+						rooms[i][j].w_to
+					) {
+						drawThisImage = images[6];
+					}
+
+					ctx.drawImage(drawThisImage, j * 80, i * 80, 80, 80);
+				} else {
+					// draws room with no links
+					// ctx.drawImage(images[16], j * 80, i * 80, 80, 80);
 				}
 			}
 		}
 	};
+
 	const drawPlayer = () => {
 		ctx = canvas.current.getContext("2d");
 
-		// ctx.fillStyle = "#FF0000";
 		ctx.drawImage(images[0], 16 * 2 + player.x, 16 * 2 + player.y, 16, 16);
-		// restores the color back because its painting the player first because the useEffect fires first
-		// ctx.fillStyle = "#000000";
+	};
+
+	let n = 17;
+	const drawItems = () => {
+		for (let i = 0; i < rooms.length; i++) {
+			for (let j = 0; j < rooms[i].length; j++) {
+				if (rooms[i][j]) {
+					// console.log(rooms[i][j].items);
+					ctx.drawImage(images[17], j * 80 + 16, i * 80 + 16, 16, 16);
+					n++;
+					console.log(n);
+
+					if (n === 19) {
+						n = 17;
+					}
+				}
+			}
+		}
 	};
 
 	const onkeydown = (e) => {
@@ -177,6 +304,13 @@ export default function Dashboard(props) {
 	};
 
 	document.onkeydown = onkeydown;
+
+	// useEffect(() => {
+	// 	const interval = setInterval(() => {
+	// 		console.log("1");
+	// 	}, 1000);
+	// 	return () => clearInterval(interval);
+	// }, []);
 
 	return (
 		<Grid>
