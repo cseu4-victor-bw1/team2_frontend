@@ -11,6 +11,8 @@ export default function axiosWithAuth(image = false) {
 		headers: {
 			"Content-Type": image ? "multipart/form-data" : "application/json",
 			Authorization: token,
+			"X-CSRFToken":
+				"CBDWogzRbI6gnpolDGwdSv4h1McqHdcvx9WQ0r0S4fSGtLUpAtoZw5EIyViOPlo6",
 		},
 	});
 

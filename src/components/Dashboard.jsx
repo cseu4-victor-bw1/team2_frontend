@@ -10,11 +10,11 @@ export default function Dashboard(props) {
 
 	const [rooms, setRooms] = useState([[]]);
 	const [player, setPlayer] = useState({
-		x: 80 * 5,
-		y: 80 * 5,
+		x: 0,
+		y: 0,
 	});
 
-	const amountOfRooms = 100;
+	const amountOfRooms = 10;
 
 	// const loadImages = () => {
 	const imageURL = [
@@ -41,6 +41,7 @@ export default function Dashboard(props) {
 		"coin/coin_3.png",
 		"coin/coin_4.png",
 	]; // list of image URLs
+
 	const images = []; /// array to hold images.
 	var imageCount = 0; // number of loaded images;
 
@@ -135,9 +136,7 @@ export default function Dashboard(props) {
 					}
 				};
 
-				console.log(pr[0]);
-
-				setUpRooms(pr[0], "n");
+				setUpRooms(pr[0]);
 				setRooms(allRooms);
 
 				// draw();
@@ -265,7 +264,13 @@ export default function Dashboard(props) {
 	const drawPlayer = () => {
 		ctx = canvas.current.getContext("2d");
 
-		ctx.drawImage(images[0], 16 * 2 + player.x, 16 * 2 + player.y, 16, 16);
+		ctx.drawImage(
+			images[0],
+			player.x * 80 + 16 * 2,
+			player.y * 80 + 16 * 2,
+			16,
+			16
+		);
 	};
 
 	let n = 17;
@@ -276,7 +281,6 @@ export default function Dashboard(props) {
 					// console.log(rooms[i][j].items);
 					ctx.drawImage(images[17], j * 80 + 16, i * 80 + 16, 16, 16);
 					n++;
-					console.log(n);
 
 					if (n === 19) {
 						n = 17;
@@ -286,20 +290,57 @@ export default function Dashboard(props) {
 		}
 	};
 
-	const onkeydown = (e) => {
+	const onkeydown = async (e) => {
 		e = e || window.event;
-		if (e.keyCode === 65 || e.keyCode === 37) {
-			// left
-			setPlayer({ ...player, x: player.x - 80 });
-		} else if (e.keyCode === 87 || e.keyCode === 38) {
-			// up
-			setPlayer({ ...player, y: player.y - 80 });
-		} else if (e.keyCode === 83 || e.keyCode === 40) {
-			// down
-			setPlayer({ ...player, y: player.y + 80 });
-		} else if (e.keyCode === 68 || e.keyCode === 39) {
-			// right
-			setPlayer({ ...player, x: player.x + 80 });
+
+		await axiosWithAuth()
+			.post("adv/move", {
+				direction: "e",
+			})
+			.then((response) => {
+				let pr = response.data;
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+
+		switch (e.keyCode) {
+			case 65:
+			case 37:
+				// left
+				if (player.x - 1 < 0) {
+					return;
+				}
+				setPlayer({ ...player, x: player.x - 1 });
+				break;
+			case 87:
+			case 38:
+				// up
+				if (player.y - 1 < 0) {
+					return;
+				}
+				setPlayer({ ...player, y: player.y - 1 });
+				break;
+			case 83:
+			case 40:
+				// down
+				if (player.y + 1 >= amountOfRooms) {
+					return;
+				}
+				setPlayer({ ...player, y: player.y + 1 });
+				break;
+			case 68:
+			case 39:
+				// right
+				if (player.x + 1 >= amountOfRooms) {
+					return;
+				}
+				setPlayer({ ...player, x: player.x + 1 });
+				break;
+			default:
+				console.log("invalid input");
+
+				break;
 		}
 	};
 
