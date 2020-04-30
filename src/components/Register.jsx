@@ -8,7 +8,7 @@ import Alert from "@material-ui/lab/Alert";
 import { TextField } from "formik-material-ui";
 import { Button, Container } from "@material-ui/core";
 
-const baseUrl = process.env.API_URL || "http://127.0.0.1:8000";
+import withBaseURL from "../helpers/url";
 
 function UserForm(props) {
   return (
@@ -91,8 +91,10 @@ const RegisterForm = withFormik({
   }),
 
   handleSubmit(values, { props, setStatus }) {
+    console.log(withBaseURL());
+
     axios
-      .post(`${baseUrl}/api/registration/`, {
+      .post(withBaseURL() + "registration/", {
         username: values.username,
         email: values.email,
         password1: values.password,
