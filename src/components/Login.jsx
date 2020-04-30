@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { withFormik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import axios from "axios";
-import withAuth from "../helpers/axios";
+import axiosWithAuth from "../helpers/axios";
 import Alert from "@material-ui/lab/Alert";
 import { TextField } from "formik-material-ui";
 import { Button, Container } from "@material-ui/core";
@@ -72,14 +72,15 @@ const LoginForm = withFormik({
       .required("Password is required"),
   }),
 
-	handleSubmit(values, { props, setStatus }) {
-		axiosWithAuth()
-			.post("auth/login", {
-				email: values.email,
-				password: values.password,
-			})
-			.then((response) => {
-				localStorage.setItem("token", response.data.key);
+  handleSubmit(values, { props, setStatus }) {
+    console.log(values);
+    axios
+      .post("http://127.0.0.1:8000/api/login/", {
+        username: values.username,
+        password: values.password,
+      })
+      .then((response) => {
+        localStorage.setItem("token", response.data.key);
 
         // setToken("response.data.token");
 
