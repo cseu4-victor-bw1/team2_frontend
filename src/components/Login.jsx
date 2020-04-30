@@ -46,9 +46,7 @@ function UserForm(props) {
         </Button>
         <br />
         {props.status && props.status.error && (
-          <Alert color="danger">
-            There was an error, please try again
-          </Alert>
+          <Alert color="danger">There was an error, please try again</Alert>
         )}
       </Form>
     </Container>
