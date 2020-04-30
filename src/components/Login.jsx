@@ -3,12 +3,12 @@ import { useHistory } from "react-router-dom";
 import { withFormik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import axios from "axios";
-import withAuth from "../helpers/axios";
+// import withAuth from "../helpers/axios";
 import Alert from "@material-ui/lab/Alert";
 import { TextField } from "formik-material-ui";
 import { Button, Container } from "@material-ui/core";
 
-const baseUrl = process.env.API_URL || "http://127.0.0.1:8000";
+import withBaseURL from "../helpers/url";
 
 function UserForm(props) {
   // const [token, setToken] = useStateWithLocalStorage("token", null);
@@ -18,8 +18,8 @@ function UserForm(props) {
         <h1>Login</h1>
         <br />
         {/* <Label>
-				<b>Email:</b>
-			</Label> */}
+        <b>Email:</b>
+      </Label> */}
         <Field
           component={TextField}
           name="username"
@@ -29,8 +29,8 @@ function UserForm(props) {
           fullWidth
         />
         {/* <Label>
-				<b>Password:</b>
-			</Label> */}
+        <b>Password:</b>
+      </Label> */}
         <Field
           component={TextField}
           name="password"
@@ -46,7 +46,9 @@ function UserForm(props) {
         </Button>
         <br />
         {props.status && props.status.error && (
-          <Alert color="danger">There was an error, please try again</Alert>
+          <Alert color="danger">
+            There was an error, please try again
+          </Alert>
         )}
       </Form>
     </Container>
@@ -72,14 +74,14 @@ const LoginForm = withFormik({
       .required("Password is required"),
   }),
 
-	handleSubmit(values, { props, setStatus }) {
-		axiosWithAuth()
-			.post("auth/login", {
-				email: values.email,
-				password: values.password,
-			})
-			.then((response) => {
-				localStorage.setItem("token", response.data.key);
+  handleSubmit(values, { props, setStatus }) {
+    axios
+      .post(withBaseURL() + "login/", {
+        username: values.username,
+        password: values.password,
+      })
+      .then((response) => {
+        localStorage.setItem("token", response.data.key);
 
         // setToken("response.data.token");
 
