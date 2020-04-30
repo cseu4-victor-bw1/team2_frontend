@@ -10,7 +10,7 @@ export default function axiosWithAuth(image = false) {
 		baseURL: withBaseURL(),
 		headers: {
 			"Content-Type": image ? "multipart/form-data" : "application/json",
-			Authorization: token,
+			Authorization: "Token " + token,
 			"X-CSRFToken":
 				"CBDWogzRbI6gnpolDGwdSv4h1McqHdcvx9WQ0r0S4fSGtLUpAtoZw5EIyViOPlo6",
 		},

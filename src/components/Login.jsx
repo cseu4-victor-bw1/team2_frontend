@@ -79,7 +79,7 @@ const LoginForm = withFormik({
 				password: values.password,
 			})
 			.then((response) => {
-				localStorage.setItem("token", response.data.token);
+				localStorage.setItem("token", response.data.key);
 
 				// setToken("response.data.token");
 
