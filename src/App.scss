@@ -1,32 +1,38 @@
 @import url("https://fonts.googleapis.com/css?family=Orbitron&display=swap");
 
 body {
-	background-color: black;
-	min-height: 100vh;
-	align-items: center;
-	justify-content: center;
-	margin: 0;
-	font-family: "Orbitron", sans-serif;
+  background-color: black;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  font-family: "Orbitron", sans-serif;
 }
 
 .container {
-	background-color: rgba($color: #fff, $alpha: 0.8);
-	border: 30px brown dashed;
-	padding: 40px;
-	border-radius: 10px;
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-	margin-top: 15%;
+  background-color: rgba($color: #fff, $alpha: 0.8);
+  border: 30px brown dashed;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  margin-top: 15%;
 }
 
 h1 {
-	text-align: center;
-	font-weight: 900;
+  text-align: center;
+  font-weight: 900;
 }
 
 .navbar {
-	padding-top: 20px;
-	a {
-		color: white;
-		padding-right: 20px;
-	}
+  padding-top: 20px;
+  a {
+    color: white;
+    padding-right: 20px;
+  }
+}
+
+.roominfo {
+  background-color: #0e070a;
+  padding: 30px;
+  align-items: stretch;
 }

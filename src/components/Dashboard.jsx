@@ -267,32 +267,16 @@ export default function Dashboard(props) {
 					}
 
 					// 3 directions: t's
-					if (
-						rooms[i][j].w_to &&
-						rooms[i][j].e_to &&
-						rooms[i][j].s_to
-					) {
+					if (rooms[i][j].w_to && rooms[i][j].e_to && rooms[i][j].s_to) {
 						drawThisImage = images[7];
 					}
-					if (
-						rooms[i][j].w_to &&
-						rooms[i][j].s_to &&
-						rooms[i][j].n_to
-					) {
+					if (rooms[i][j].w_to && rooms[i][j].s_to && rooms[i][j].n_to) {
 						drawThisImage = images[8];
 					}
-					if (
-						rooms[i][j].w_to &&
-						rooms[i][j].e_to &&
-						rooms[i][j].n_to
-					) {
+					if (rooms[i][j].w_to && rooms[i][j].e_to && rooms[i][j].n_to) {
 						drawThisImage = images[9];
 					}
-					if (
-						rooms[i][j].e_to &&
-						rooms[i][j].s_to &&
-						rooms[i][j].n_to
-					) {
+					if (rooms[i][j].e_to && rooms[i][j].s_to && rooms[i][j].n_to) {
 						drawThisImage = images[10];
 					}
 
@@ -344,13 +328,7 @@ export default function Dashboard(props) {
 						);
 					}
 					if (rooms[i][j].items.includes("chest")) {
-						ctx.drawImage(
-							images[frame + 20],
-							j * 80 + 16,
-							i * 80 + 16,
-							16,
-							16
-						);
+						ctx.drawImage(images[frame + 20], j * 80 + 16, i * 80 + 16, 16, 16);
 					}
 					if (rooms[i][j].items.includes("peaks")) {
 						ctx.drawImage(
@@ -371,13 +349,7 @@ export default function Dashboard(props) {
 						);
 					}
 					if (rooms[i][j].items.includes("skull")) {
-						ctx.drawImage(
-							images[46],
-							j * 80 + 16 * 3,
-							i * 80 + 16 * 1,
-							16,
-							16
-						);
+						ctx.drawImage(images[46], j * 80 + 16 * 3, i * 80 + 16 * 1, 16, 16);
 					}
 				}
 			}
@@ -506,16 +478,23 @@ export default function Dashboard(props) {
 							backgroundColor: "#25131a",
 							marginLeft: "20px",
 							padding: "20px",
+							display: "flex",
+							flexDirection: "column",
+							fontFamily: "Arial",
 						}}
 					>
-						<span>
-							<b>Title</b>: {moveResponse.data.title}
-						</span>
+						<div className="roominfo">
+							<b>Room name</b>: <br />
+							<br />
+							{moveResponse.data.title}
+						</div>
 						<br />
 						<br />
-						<span>
-							<b>Description</b>: {moveResponse.data.description}
-						</span>
+						<div className="roominfo">
+							<b>Description</b>: <br />
+							<br />
+							{moveResponse.data.description}
+						</div>
 					</div>
 				)}
 			</div>
