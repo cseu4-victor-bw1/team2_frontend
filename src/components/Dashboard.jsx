@@ -64,6 +64,7 @@ export default function Dashboard(props) {
 
 		"ladder.png",
 
+		// not used
 		"arrow/arrow_1.png",
 		"arrow/arrow_2.png",
 		"arrow/arrow_3.png",
@@ -78,6 +79,8 @@ export default function Dashboard(props) {
 		"flasks/flasks_4_2.png",
 		"flasks/flasks_4_3.png",
 		"flasks/flasks_4_4.png",
+
+		"skull.png",
 	]; // list of image URLs
 
 	const images = []; /// array to hold images.
@@ -150,10 +153,13 @@ export default function Dashboard(props) {
 					if (Math.floor(Math.random() * 90) + 1 === 1) {
 						room.items.push("flasks");
 					}
+					if (Math.floor(Math.random() * 20) + 1 === 1) {
+						room.items.push("skull");
+					}
 
 					if (room.e_to) {
 						if (Math.floor(Math.random() * 5) + 1 === 1) {
-							room.items.push("arrows");
+							room.items.push("peaks");
 						}
 					}
 
@@ -335,7 +341,7 @@ export default function Dashboard(props) {
 							16
 						);
 					}
-					if (rooms[i][j].items.includes("arrows")) {
+					if (rooms[i][j].items.includes("peaks")) {
 						ctx.drawImage(
 							images[frame + 37],
 							j * 80 + 16 * 4,
@@ -349,6 +355,15 @@ export default function Dashboard(props) {
 							images[frame + 41],
 							j * 80 + 16 * 1,
 							i * 80 + 16 * 3,
+							16,
+							16
+						);
+					}
+					if (rooms[i][j].items.includes("skull")) {
+						ctx.drawImage(
+							images[46],
+							j * 80 + 16 * 3,
+							i * 80 + 16 * 1,
 							16,
 							16
 						);
