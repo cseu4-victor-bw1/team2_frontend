@@ -203,6 +203,14 @@ export default function Dashboard(props) {
 				setRooms(allRooms);
 			})
 			.catch((error) => {
+				// if (
+				// 	error.response.data.detail ===
+				// 	"Invalid token header. No credentials provided."
+				// ) {
+				//     console.log("redirect");
+				//     props.history.push("/register");
+				// }
+
 				console.log(error);
 			});
 	}, []);

@@ -19,5 +19,11 @@ export default function SiteNavbar() {
 		setToken(localStorage.getItem("token") || "");
 	});
 
-	return <>{token ? "links logged in" : "links logged in"}</>;
+	return (
+		<div className="navbar">
+			<Link to="/register">Register</Link>
+			<Link to="/login">Login</Link>
+			<Link to="/dashboard">Dashboard</Link>
+		</div>
+	);
 }
