@@ -88,6 +88,9 @@ export default function Dashboard(props) {
 
 	// function called once all images have loaded.
 	function allLoaded() {
+		if (canvas.current == null) {
+			return;
+		}
 		// all images have loaded and can be rendered
 		ctx = canvas.current.getContext("2d");
 		drawRooms(ctx);
@@ -203,13 +206,13 @@ export default function Dashboard(props) {
 				setRooms(allRooms);
 			})
 			.catch((error) => {
-				// if (
-				// 	error.response.data.detail ===
-				// 	"Invalid token header. No credentials provided."
-				// ) {
-				//     console.log("redirect");
-				//     props.history.push("/register");
-				// }
+				if (
+					error.response.data.detail ===
+					"Invalid token header. No credentials provided."
+				) {
+					console.log("redirect");
+					props.history.push("/login");
+				}
 
 				console.log(error);
 			});
