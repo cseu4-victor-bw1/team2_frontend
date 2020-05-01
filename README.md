@@ -5,6 +5,11 @@ GIF demo:
 
 [![MUD GIF](./demo.gif)](https://cseu4-victor-team2-mud.netlify.app/)
 
+## Assets used:
+https://pixel-poem.itch.io/dungeon-assetpuck
+
+--------
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
