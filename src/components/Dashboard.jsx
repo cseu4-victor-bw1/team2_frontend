@@ -81,6 +81,11 @@ export default function Dashboard(props) {
 		"flasks/flasks_4_4.png",
 
 		"skull.png",
+
+		"side_torch/side_torch_1.png",
+		"side_torch/side_torch_2.png",
+		"side_torch/side_torch_3.png",
+		"side_torch/side_torch_4.png",
 	]; // list of image URLs
 
 	const images = []; /// array to hold images.
@@ -163,6 +168,11 @@ export default function Dashboard(props) {
 					if (room.e_to) {
 						if (Math.floor(Math.random() * 5) + 1 === 1) {
 							room.items.push("peaks");
+						}
+					}
+					if (!room.w_to) {
+						if (Math.floor(Math.random() * 5) + 1 === 1) {
+							room.items.push("side_torch");
 						}
 					}
 
@@ -344,6 +354,15 @@ export default function Dashboard(props) {
 							images[frame + 41],
 							j * 80 + 16 * 1,
 							i * 80 + 16 * 3,
+							16,
+							16
+						);
+					}
+					if (rooms[i][j].items.includes("side_torch")) {
+						ctx.drawImage(
+							images[frame + 46],
+							j * 80 + 16 * 1,
+							i * 80 + 16 * 2,
 							16,
 							16
 						);
